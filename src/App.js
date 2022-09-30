@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css'
 import styled from '@emotion/styled'
 import axios from 'axios'
 
-import { Header as HeaderContent, InfoBox, LineGraph, Map, Table } from './components'
+import { Header as HeaderContent, InfoBox, Graph, Map, Table } from './components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,42 +34,71 @@ const Stats = styled.div`
 
 const Right = styled(Card)``
 
+// BUILD CHART DATA
+const buildChart = (data, casesType) => {
+  let chartData = []
+  let lastDataPoint
+  for (let date in data.cases) {
+    if (lastDataPoint) {
+      let newDataPoint = {
+        x: date,
+        y: data[casesType][date] - lastDataPoint,
+      }
+      chartData.push(newDataPoint)
+    }
+    lastDataPoint = data[casesType][date]
+  }
+  return chartData
+}
+
 const App = () => {
   const [country, setInputCountry] = useState('worldwide')
   const [countryInfo, setCountryInfo] = useState({})
   const [countries, setCountries] = useState([])
   const [mapCountries, setMapCountries] = useState([])
   const [tableData, setTableData] = useState([])
+  const [graphData, setGraphData] = useState({})
   const [casesType, setCasesType] = useState('cases')
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 })
   const [mapZoom, setMapZoom] = useState(3)
 
-  useEffect(() => {
-    fetch('https://disease.sh/v3/covid-19/all')
-      .then((response) => response.json())
-      .then((data) => {
-        setCountryInfo(data)
-      })
-  }, [])
+  // GET LAST-120-DAYS DATA
+  const getLatestData = async () => {
+    const res = await axios.get('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
+
+    let chartData = buildChart(res.data, casesType)
+    setGraphData(chartData)
+  }
+
+  // GET ALL REPORTED DATA
+  const getAllData = async () => {
+    const res = await axios.get('https://disease.sh/v3/covid-19/all')
+
+    setCountryInfo(res.data)
+  }
+
+  // GET DETAILS OF COUNTRIES DATA
+  const getCountriesData = async () => {
+    const res = await axios.get('https://disease.sh/v3/covid-19/countries')
+
+    const countries = res.data.map((country) => ({
+      name: country.country,
+      value: country.countryInfo.iso2,
+    }))
+    let sortedData = sortData(res.data)
+    setCountries(countries)
+    setMapCountries(res.data)
+    setTableData(sortedData)
+  }
 
   useEffect(() => {
-    const getCountriesData = async () => {
-      fetch('https://disease.sh/v3/covid-19/countries')
-        .then((response) => response.json())
-        .then((data) => {
-          const countries = data.map((country) => ({
-            name: country.country,
-            value: country.countryInfo.iso2,
-          }))
-          let sortedData = sortData(data)
-          setCountries(countries)
-          setMapCountries(data)
-          setTableData(sortedData)
-        })
-    }
-
+    getAllData()
     getCountriesData()
   }, [])
+
+  useEffect(() => {
+    getLatestData()
+  }, [casesType])
 
   const onCountryChange = async (e) => {
     const countryCode = e.target.value
@@ -107,7 +136,7 @@ const App = () => {
             <h3>Live Cases by Country</h3>
             <Table countries={tableData} />
             <h3>Worldwide new {casesType}</h3>
-            <LineGraph casesType={casesType} />
+            <Graph graphData={graphData} />
           </div>
         </CardContent>
       </Right>
