@@ -1,7 +1,7 @@
 import Header from './Header'
 import InfoBox from './InfoBox'
-import LineGraph from './LineGraph'
+import Graph from './Graph'
 import Map from './Map'
 import Table from './Table'
 
-export { Header, InfoBox, LineGraph, Map, Table }
+export { Header, InfoBox, Graph, Map, Table }

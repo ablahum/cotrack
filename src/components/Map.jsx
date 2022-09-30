@@ -18,7 +18,7 @@ const Leaflet = styled(MapLeaflet)`
   border-radius: 12px;
 `
 
-function Map({ countries, casesType, center, zoom }) {
+const Map = ({ countries, casesType, center, zoom }) => {
   return (
     <Wrapper>
       <Leaflet center={center} zoom={zoom}>

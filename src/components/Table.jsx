@@ -24,7 +24,7 @@ const TData = styled.td`
   border: none;
 `
 
-function Table({ countries }) {
+const Table = ({ countries }) => {
   return (
     <Wrapper>
       {countries.map((country, i) => (
