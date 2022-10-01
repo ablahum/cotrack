@@ -1,6 +1,7 @@
 import React from 'react'
 import numeral from 'numeral'
 import { Circle, Popup } from 'react-leaflet'
+import styled from '@emotion/styled'
 
 const casesTypeColors = {
   cases: {
@@ -35,6 +36,30 @@ export const sortData = (data) => {
   return sortedData
 }
 
+const Wrapper = styled.div`
+  width: 150px;
+`
+
+const Flag = styled.div`
+  height: 80px;
+  width: 100%;
+  border-radius: 8px;
+  background-size: cover;
+  background-image: ${({ bgImg }) => `url(${bgImg})`};
+`
+
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+  margin-top: 8px;
+`
+
+const Content = styled.div`
+  font-size: 16px;
+  margin-top: 5px;
+`
+
 export const prettyPrintStat = (stat) => (stat ? `+${numeral(stat).format('0.0a')}` : '+0')
 
 export const showDataOnMap = (data, casesType = 'cases') =>
@@ -48,17 +73,17 @@ export const showDataOnMap = (data, casesType = 'cases') =>
       radius={Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier}
     >
       <Popup>
-        {/* <div className='info-container'> */}
-        <div className='info-flag' style={{ backgroundImage: `url(${country.countryInfo.flag})` }}></div>
+        <Wrapper>
+          <Flag bgImg={country.countryInfo.flag}></Flag>
 
-        <div className='info-name'>{country.country}</div>
+          <Title>{country.country}</Title>
 
-        <div className='info-confirmed'>Cases: {numeral(country.cases).format('0,0')}</div>
+          <Content>Cases: {numeral(country.cases).format('0,0')}</Content>
 
-        <div className='info-recovered'>Recovered: {numeral(country.recovered).format('0,0')}</div>
+          <Content>Recovered: {numeral(country.recovered).format('0,0')}</Content>
 
-        <div className='info-deaths'>Deaths: {numeral(country.deaths).format('0,0')}</div>
-        {/* </div> */}
+          <Content>Deaths: {numeral(country.deaths).format('0,0')}</Content>
+        </Wrapper>
       </Popup>
     </Circle>
   ))
