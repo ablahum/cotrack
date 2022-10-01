@@ -2,7 +2,7 @@ import React from 'react'
 import { Map as MapLeaflet, TileLayer } from 'react-leaflet'
 import { showDataOnMap } from '../util'
 import styled from '@emotion/styled'
-import '../Map.css'
+// import '../Map.css'
 
 const Wrapper = styled.div`
   height: 500px;
@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   border-radius: 20px;
   margin-top: 16px;
   box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+  background-color: #f3f2f8;
 `
 
 const Leaflet = styled(MapLeaflet)`

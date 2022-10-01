@@ -15,6 +15,7 @@ const Header = ({ title, countries, country, onChange }) => {
   return (
     <>
       <Title>{title}</Title>
+
       <Dropdown>
         <Select variant='outlined' value={country} onChange={onChange}>
           <MenuItem value='worldwide'>Worldwide</MenuItem>

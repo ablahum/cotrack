@@ -4,10 +4,10 @@ import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
   margin-top: 20px;
-  overflow: scroll;
+  overflow: auto;
   color: #6a5d5d;
   background-color: white;
-  height: 400px;
+  height: 450px;
 `
 
 const TRow = styled.tr`
