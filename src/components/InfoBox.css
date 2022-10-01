@@ -1,11 +1,3 @@
-.infoBox {
-  flex: 1;
-}
-
-.infoBox:not(:last-child) {
-  margin-right: 10px;
-}
-
 .infoBox--selected {
   border-top: 10px solid greenyellow;
 }

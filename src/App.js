@@ -12,8 +12,11 @@ import { Header as HeaderContent, InfoBox, Graph, Map, Table } from './component
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
-  background-color: #f5f6fa;
   padding: 20px;
+
+  @media (max-width: 990px) {
+    flex-direction: column;
+  }
 `
 
 const Left = styled.div`
@@ -32,7 +35,20 @@ const Stats = styled.div`
   justify-content: space-between;
 `
 
-const Right = styled(Card)``
+const Right = styled(Card)`
+  background-color: #f3f2f8 !important;
+`
+
+const Label = styled.h3`
+  color: #6a5d5d;
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+
+  &:last-of-type {
+    margin-top: 1rem;
+  }
+`
 
 // BUILD CHART DATA
 const buildChart = (data, casesType) => {
@@ -116,28 +132,27 @@ const App = () => {
     <Wrapper>
       <Left>
         <Header>
-          <HeaderContent title={'COTRACK'} countries={countries} country={country} onChange={onCountryChange} />
+          <HeaderContent title={'COTRACK | The COVID-19 Tracker'} countries={countries} country={country} onChange={onCountryChange} />
         </Header>
 
         <Stats>
-          <InfoBox onClick={(e) => setCasesType('cases')} title='Coronavirus Cases' isRed active={casesType === 'cases'} cases={prettyPrintStat(countryInfo.todayCases)} total={numeral(countryInfo.cases).format('0.0a')} />
+          <InfoBox onClick={() => setCasesType('cases')} title='Coronavirus Cases' isRed active={casesType === 'cases'} cases={prettyPrintStat(countryInfo.todayCases)} total={numeral(countryInfo.cases).format('0.0a')} />
 
-          <InfoBox onClick={(e) => setCasesType('recovered')} title='Recovered' active={casesType === 'recovered'} cases={prettyPrintStat(countryInfo.todayRecovered)} total={numeral(countryInfo.recovered).format('0.0a')} />
+          <InfoBox onClick={() => setCasesType('recovered')} title='Recovered' active={casesType === 'recovered'} cases={prettyPrintStat(countryInfo.todayRecovered)} total={numeral(countryInfo.recovered).format('0.0a')} />
 
-          <InfoBox onClick={(e) => setCasesType('deaths')} title='Deaths' isRed active={casesType === 'deaths'} cases={prettyPrintStat(countryInfo.todayDeaths)} total={numeral(countryInfo.deaths).format('0.0a')} />
+          <InfoBox onClick={() => setCasesType('deaths')} title='Deaths' isRed active={casesType === 'deaths'} cases={prettyPrintStat(countryInfo.todayDeaths)} total={numeral(countryInfo.deaths).format('0.0a')} />
         </Stats>
 
         <Map countries={mapCountries} casesType={casesType} center={mapCenter} zoom={mapZoom} />
       </Left>
 
-      <Right className='app__right'>
+      <Right>
         <CardContent>
-          <div className='app__information'>
-            <h3>Live Cases by Country</h3>
-            <Table countries={tableData} />
-            <h3>Worldwide new {casesType}</h3>
-            <Graph graphData={graphData} />
-          </div>
+          <Label>Live Cases by Country</Label>
+          <Table countries={tableData} />
+
+          <Label>Worldwide new {casesType}</Label>
+          <Graph graphData={graphData} />
         </CardContent>
       </Right>
     </Wrapper>
