@@ -45,7 +45,7 @@ const Flag = styled.div`
   width: 100%;
   border-radius: 8px;
   background-size: cover;
-  background-image: ${({ bgImg }) => `url(${bgImg})`};
+  background-image: url(${({ bgImg }) => bgImg});
 `
 
 const Title = styled.div`
