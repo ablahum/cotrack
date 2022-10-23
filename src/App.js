@@ -110,15 +110,6 @@ const App = () => {
     setGraphData(chartData)
   }
 
-  useEffect(() => {
-    getAllData()
-    getCountriesData()
-  }, [])
-
-  useEffect(() => {
-    getLatestData()
-  }, [casesType])
-
   const onCountryChange = async (e) => {
     const countryCode = e.target.value
 
@@ -130,6 +121,15 @@ const App = () => {
     setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long])
     setMapZoom(4)
   }
+
+  useEffect(() => {
+    getAllData()
+    getCountriesData()
+  }, [])
+
+  useEffect(() => {
+    getLatestData()
+  }, [casesType])
 
   return (
     <Wrapper>
