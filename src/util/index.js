@@ -24,6 +24,8 @@ const casesTypeColors = {
   },
 }
 
+export const prettyPrintStat = (stat) => (stat ? `+${numeral(stat).format('0.0a')}` : '+0')
+
 export const sortData = (data) => {
   let sortedData = [...data]
   sortedData.sort((a, b) => {
@@ -59,8 +61,6 @@ const Content = styled.div`
   font-size: 16px;
   margin-top: 5px;
 `
-
-export const prettyPrintStat = (stat) => (stat ? `+${numeral(stat).format('0.0a')}` : '+0')
 
 export const showDataOnMap = (data, casesType = 'cases') =>
   data.map((country, i) => (
