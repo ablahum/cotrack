@@ -19,9 +19,10 @@ const Header = ({ title, countries, country, onChange }) => {
       <Dropdown>
         <Select variant='outlined' value={country} onChange={onChange}>
           <MenuItem value='worldwide'>Worldwide</MenuItem>
-          {countries.map((country, i) => (
-            <MenuItem key={i} value={country.value}>
-              {country.name}
+
+          {countries.map(({ value, name }, i) => (
+            <MenuItem key={i} value={value}>
+              {name}
             </MenuItem>
           ))}
         </Select>

@@ -5,7 +5,6 @@ import 'leaflet/dist/leaflet.css'
 import styled from '@emotion/styled'
 import axios from 'axios'
 
-import './App.css'
 import { sortData, prettyPrintStat } from './util/index'
 import { Header as HeaderContent, InfoBox, Graph, Map, Table } from './components'
 import { getAll, getCountries, getLatest } from './components/api'
@@ -97,6 +96,7 @@ const App = () => {
       value: country.countryInfo.iso2,
     }))
     let sortedData = sortData(res.data)
+
     setCountries(countries)
     setMapCountries(res.data)
     setTableData(sortedData)
