@@ -77,49 +77,74 @@ const App = () => {
   const [casesType, setCasesType] = useState('cases');
 
   const [mapCountries, setMapCountries] = useState([]);
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
-  const [mapZoom, setMapZoom] = useState(3);
+  const [mapZoom, setMapZoom] = useState(2);
+  const [mapCenter, setMapCenter] = useState({
+    lat: 34.80746,
+    lng: -40.4796,
+  });
 
   // GET ALL DATA (HEADER)
   const getAllData = async () => {
     const res = await getAll();
 
-    setCountryInfo(res.data);
+    try {
+      setCountryInfo(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // GET COUNTRIES DATA (MAP & TABLE)
   const getCountriesData = async () => {
     const res = await getCountries();
 
-    const countries = res.data.map((country) => ({
-      name: country.country,
-      value: country.countryInfo.iso2,
-    }));
-    let sortedData = sortData(res.data);
+    try {
+      const countries = res.data.map((country) => ({
+        name: country.country,
+        value: country.countryInfo.iso2,
+      }));
+      const sortedData = sortData(res.data);
 
-    setCountries(countries);
-    setMapCountries(res.data);
-    setTableData(sortedData);
+      setCountries(countries);
+      setMapCountries(res.data);
+      setTableData(sortedData);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // GET LATEST DATA (CHART)
   const getLatestData = async () => {
     const res = await getLatest();
 
-    let chartData = buildChart(res.data, casesType);
-    setGraphData(chartData);
+    try {
+      const chartData = buildChart(res.data, casesType);
+      setGraphData(chartData);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const onCountryChange = async (e) => {
-    const countryCode = e.target.value;
+  // GET COUNTRY CHANGE DATA
+  const onCountryChange = async (event) => {
+    const countryCode = event.target.value;
 
-    const url = countryCode === 'worldwide' ? 'https://disease.sh/v3/covid-19/all' : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+    let url;
+    if (countryCode === 'worldwide') {
+      url = 'https://disease.sh/v3/covid-19/all';
+    } else {
+      url = `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+    }
     const res = await axios.get(url);
 
-    setInputCountry(countryCode);
-    setCountryInfo(res.data);
-    setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long]);
-    setMapZoom(4);
+    try {
+      setInputCountry(countryCode);
+      setCountryInfo(res.data);
+      setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long]);
+      setMapZoom(4);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -136,7 +161,7 @@ const App = () => {
       <Left>
         <Header>
           <HeaderContent
-            title={'COTRACK | The COVID-19 Tracker'}
+            title="COTRACK | The COVID-19 Tracker"
             countries={countries}
             country={country}
             onChange={onCountryChange}
