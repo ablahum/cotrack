@@ -15,7 +15,6 @@ const Wrapper = styled(Card)`
 
   &:not(:last-child) {
     margin-right: 10px;
-    background-color: tomato;
   }
 `;
 
@@ -44,8 +43,8 @@ const InfoBox = ({ title, cases, total, active, isRed, onClick }) => (
     onClick={onClick}
     // className={`${active && 'infoBox--selected'} ${isRed && 'infoBox--red'}`}
     // className={`${active && 'infoBox--selected'}`}
-    {...(active && { active })}
-    {...(isRed && { isRed })}
+    // {...(active && { active })}
+    {...(isRed && { isRed }, active && { active })}
   >
     <CardContent>
       <Typography gutterBottom>{title}</Typography>
