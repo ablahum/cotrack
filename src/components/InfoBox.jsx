@@ -9,6 +9,10 @@ const Wrapper = styled(Card)`
   flex: 1;
   cursor: pointer;
 
+  border: ${({ active }) => active && '3px solid greenyellow'}
+
+  border-color: ${({ isRed }) => isRed && 'red'};
+
   &:not(:last-child) {
     margin-right: 10px;
     background-color: tomato;
@@ -19,11 +23,13 @@ const Red = styled.h2`
   color: #cc1034;
   font-weight: 600;
   font-size: 1.75rem;
-  /* margin-bottom: 0.5rem; */
 `;
 
 const Green = styled.h2`
   color: lightgreen !important;
+  color: #cc1034;
+  font-weight: 600;
+  font-size: 1.75rem;
 `;
 
 const Total = styled(Typography)`
@@ -36,12 +42,17 @@ const Total = styled(Typography)`
 const InfoBox = ({ title, cases, total, active, isRed, onClick }) => (
   <Wrapper
     onClick={onClick}
-    className={`${active && 'infoBox--selected'} ${isRed && 'infoBox--red'}`}
+    // className={`${active && 'infoBox--selected'} ${isRed && 'infoBox--red'}`}
+    // className={`${active && 'infoBox--selected'}`}
+    {...(active && { active })}
+    {...(isRed && { isRed })}
   >
     <CardContent>
       <Typography gutterBottom>{title}</Typography>
 
-      <h2 className={`infoBox__cases ${!isRed && 'infoBox__cases--green'}`}>{cases}</h2>
+      {/* <h2 className={`infoBox__cases ${!isRed && 'infoBox__cases--green'}`}>{cases}</h2> */}
+
+      {!isRed ? <Green>{cases}</Green> : <Red>{cases}</Red>}
 
       <Total color="textSecondary">{total} Total</Total>
     </CardContent>

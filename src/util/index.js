@@ -38,9 +38,9 @@ export const sortData = (data) => {
   return sortedData;
 };
 
-// const Wrapper = styled.div`
-//   width: 150px;
-// `;
+const Wrapper = styled.div`
+  width: 150px;
+`;
 
 const Flag = styled.div`
   height: 80px;
@@ -73,17 +73,17 @@ export const showDataOnMap = (data, casesType = 'cases') =>
       radius={Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier}
     >
       <Popup>
-        {/* <Wrapper> */}
-        <Flag bgImg={country.countryInfo.flag}></Flag>
+        <Wrapper>
+          <Flag bgImg={country.countryInfo.flag}></Flag>
 
-        <Title>{country.country}</Title>
+          <Title>{country.country}</Title>
 
-        <Content>Cases: {numeral(country.cases).format('0,0')}</Content>
+          <Content>Cases: {numeral(country.cases).format('0,0')}</Content>
 
-        <Content>Recovered: {numeral(country.recovered).format('0,0')}</Content>
+          <Content>Recovered: {numeral(country.recovered).format('0,0')}</Content>
 
-        <Content>Deaths: {numeral(country.deaths).format('0,0')}</Content>
-        {/* </Wrapper> */}
+          <Content>Deaths: {numeral(country.deaths).format('0,0')}</Content>
+        </Wrapper>
       </Popup>
     </Circle>
   ));
