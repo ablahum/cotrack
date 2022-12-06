@@ -26,7 +26,7 @@ const Left = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   justify-content: space-between;
 `;
 
