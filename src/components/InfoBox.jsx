@@ -2,15 +2,12 @@ import React from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import styled from '@emotion/styled';
 
-import './InfoBox.css';
-
 const Wrapper = styled(Card)`
   background-color: #f3f2f8 !important;
   flex: 1;
   cursor: pointer;
 
-  border: ${({ active }) => active && '3px solid greenyellow'}
-
+  border: ${({ active }) => active && '3px solid greenyellow'};
   border-color: ${({ isRed }) => isRed && 'red'};
 
   &:not(:last-child) {
@@ -41,15 +38,11 @@ const Total = styled(Typography)`
 const InfoBox = ({ title, cases, total, active, isRed, onClick }) => (
   <Wrapper
     onClick={onClick}
-    // className={`${active && 'infoBox--selected'} ${isRed && 'infoBox--red'}`}
-    // className={`${active && 'infoBox--selected'}`}
-    // {...(active && { active })}
-    {...(isRed && { isRed }, active && { active })}
+    {...(active && { active })}
+    {...(isRed && { isRed })}
   >
     <CardContent>
       <Typography gutterBottom>{title}</Typography>
-
-      {/* <h2 className={`infoBox__cases ${!isRed && 'infoBox__cases--green'}`}>{cases}</h2> */}
 
       {!isRed ? <Green>{cases}</Green> : <Red>{cases}</Red>}
 
