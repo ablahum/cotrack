@@ -54,6 +54,7 @@ const Label = styled.h3`
 const buildChart = (data, casesType) => {
   let chartData = [];
   let lastDataPoint;
+
   for (let date in data.cases) {
     if (lastDataPoint) {
       let newDataPoint = {
@@ -64,17 +65,18 @@ const buildChart = (data, casesType) => {
     }
     lastDataPoint = data[casesType][date];
   }
+
   return chartData;
 };
 
 const App = () => {
-  const [countries, setCountries] = useState([]);
   const [country, setInputCountry] = useState('worldwide');
+  const [countries, setCountries] = useState([]);
   const [countryInfo, setCountryInfo] = useState({});
 
+  const [casesType, setCasesType] = useState('cases');
   const [tableData, setTableData] = useState([]);
   const [graphData, setGraphData] = useState({});
-  const [casesType, setCasesType] = useState('cases');
 
   const [mapCountries, setMapCountries] = useState([]);
   const [mapZoom, setMapZoom] = useState(2);
@@ -89,6 +91,28 @@ const App = () => {
 
     try {
       setCountryInfo(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // GET COUNTRY CHANGE DATA
+  const onCountryChange = async (event) => {
+    const countryCode = event.target.value;
+
+    let url;
+    if (countryCode === 'worldwide') {
+      url = 'https://disease.sh/v3/covid-19/all';
+    } else {
+      url = `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+    }
+    const res = await axios.get(url);
+
+    try {
+      setInputCountry(countryCode);
+      setCountryInfo(res.data);
+      setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long]);
+      setMapZoom(4);
     } catch (err) {
       console.log(err);
     }
@@ -120,28 +144,6 @@ const App = () => {
     try {
       const chartData = buildChart(res.data, casesType);
       setGraphData(chartData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // GET COUNTRY CHANGE DATA
-  const onCountryChange = async (event) => {
-    const countryCode = event.target.value;
-
-    let url;
-    if (countryCode === 'worldwide') {
-      url = 'https://disease.sh/v3/covid-19/all';
-    } else {
-      url = `https://disease.sh/v3/covid-19/countries/${countryCode}`;
-    }
-    const res = await axios.get(url);
-
-    try {
-      setInputCountry(countryCode);
-      setCountryInfo(res.data);
-      setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long]);
-      setMapZoom(4);
     } catch (err) {
       console.log(err);
     }
